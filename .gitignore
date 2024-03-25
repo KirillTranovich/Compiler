@@ -1,0 +1,8 @@
+ast_calk/
+ast_return_calc/
+simple_exeample_0/
+simpl_example_1/
+english_to_american/
+simple_calculate/parser_retTokens.tab.c
+simple_calculate/parser_retTokens.tab.h
+simple_calculate/lex.yy.c
