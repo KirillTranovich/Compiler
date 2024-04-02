@@ -56,15 +56,18 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
     NAME = 259,                    /* NAME  */
-    IF = 260,                      /* IF  */
-    ELSE = 261,                    /* ELSE  */
-    WHILE = 262,                   /* WHILE  */
-    FOR = 263,                     /* FOR  */
-    DEF = 264,                     /* DEF  */
-    CLASS = 265,                   /* CLASS  */
-    NEW = 266,                     /* NEW  */
-    CMP = 267,                     /* CMP  */
-    UMINUS = 268                   /* UMINUS  */
+    STRING = 260,                  /* STRING  */
+    IF = 261,                      /* IF  */
+    ELSE = 262,                    /* ELSE  */
+    WHILE = 263,                   /* WHILE  */
+    FOR = 264,                     /* FOR  */
+    DEF = 265,                     /* DEF  */
+    CLASS = 266,                   /* CLASS  */
+    NEW = 267,                     /* NEW  */
+    AND = 268,                     /* AND  */
+    OR = 269,                      /* OR  */
+    CMP = 270,                     /* CMP  */
+    UMINUS = 271                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -73,14 +76,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "parser.y"
+#line 22 "parser.y"
  
-    
+    struct a a;
     double num;
     char *str;
  //   struct line ln;
 
-#line 84 "parser.tab.h"
+#line 87 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,18 +1,26 @@
+%code{
+    struct line{
+double num;
+char *str;
+
+};
+
+}
 %{
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "main.h"
 /*struct line{
 double num;
 char *str;
 
 };*/
-
+extern struct a;
 %}
 
 %union { 
-    
+    struct a a;
     double num;
     char *str;
  //   struct line ln;
@@ -20,13 +28,14 @@ char *str;
 
 /* declare tokens */
 %token <num> NUMBER
-%token <str> NAME
+%token <str> NAME STRING
 
 
-%token IF ELSE WHILE FOR DEF CLASS NEW
+%token IF ELSE WHILE FOR DEF CLASS NEW AND OR
 
 %nonassoc <str> CMP
 %right '='
+%left AND OR
 %left '+' '-'
 %left '*' '/'
 %nonassoc '|' UMINUS
@@ -42,9 +51,9 @@ command:        {}
 |command cr_class ';'   {}
 |command cr_func ';'    {}
 |command exp ';'        {}
-|command level ';' {}
-|command cycle ';' {}
-|command condition ';' {}
+|command level  {}
+|command cycle  {}
+|command condition  {}
 ;
 
 name: NAME  {}
@@ -63,20 +72,21 @@ cr_func: DEF name '(' explist ')'                {}
 |DEF name '('  ')'                {}
 ;
 
-condition: IF '(' exp ')'                        {}
-| ELSE                                           {}
+condition: IF '(' exp ')'   level                     {}
+| ELSE   level                                 {}
 ;
 
-cycle: FOR '('exp ';' exp ';' exp  ')'           {}
-| FOR '('name ':' name ')'                       {}
-| WHILE '(' exp ')'                              {}
+cycle: FOR '('exp ';' exp ';' exp  ')'  level         {}
+| FOR '('name ':' exp ')'   level                     {}
+| WHILE '(' exp ')'     level                         {}
 ;
 
-level: '{' {}
-| '}'      {}
+level: '{'command '}' {}
 ;
 
 exp: exp CMP exp            { }
+  | exp AND exp             { }
+  | exp OR exp              { }
   | exp '+' exp             { }
   | exp '-' exp             { }
   | exp '*' exp             { }
@@ -84,12 +94,14 @@ exp: exp CMP exp            { }
   | '(' exp ')'             { }
   | '-' exp %prec UMINUS    { }
   | NUMBER                  { }
-  | name                    { }
   | name '.' name           { }
   | name '.' name '(' explist ')'  { }
   | name '=' exp            { }
   | name '(' explist ')'    { }
   | name '[' explist ']'    { }
+  | STRING                  { }
+  | name                    { }
+  |'(' ')'                  { }
 ;
 
 explist: exp { }

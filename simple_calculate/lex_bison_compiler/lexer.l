@@ -5,7 +5,9 @@
 
 
 %{
+    #include "main.h"
   #include "parser.tab.h"
+  
 %}
 
 /* float exponent */
@@ -40,6 +42,8 @@ EXP ([Ee][-+]?[0-9]+)
 
   /* keywords */
 "if"    {      return IF; }
+"and"   {      return AND; }
+"or"    {return OR;}
 "else"  {    return ELSE; }
 "while" {  return WHILE; }
 "for"    {    return FOR; }
@@ -48,6 +52,7 @@ EXP ([Ee][-+]?[0-9]+)
 "new" {return NEW;}
   /* names */
 [a-zA-Z][a-zA-Z0-9_-]* {yylval.str  = strdup(yytext); return NAME; }
+"\""[a-zA-Z0-9_-]*"\"" {yylval.str  = strdup(yytext); return STRING; }
 
 
 [0-9]+"."[0-9]*{EXP}? |
