@@ -66,8 +66,9 @@ extern int yydebug;
     NEW = 267,                     /* NEW  */
     AND = 268,                     /* AND  */
     OR = 269,                      /* OR  */
-    CMP = 270,                     /* CMP  */
-    UMINUS = 271                   /* UMINUS  */
+    EF = 270,                      /* EF  */
+    CMP = 271,                     /* CMP  */
+    UMINUS = 272                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -82,7 +83,7 @@ union YYSTYPE
     double num;
     char *str;
 
-#line 86 "parser.tab.h"
+#line 87 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

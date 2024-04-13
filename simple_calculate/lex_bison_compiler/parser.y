@@ -27,8 +27,6 @@ char* concat_strings(char* str1, char* str2) {
 
     return result;
 }
-
-extern struct ast;
 %}
 
 %union { 
@@ -42,7 +40,7 @@ extern struct ast;
 %token <str> NAME STRING
 
 
-%token IF ELSE WHILE FOR DEF CLASS NEW AND OR
+%token IF ELSE WHILE FOR DEF CLASS NEW AND OR EF
 
 %nonassoc <str> CMP
 %right '='
@@ -56,86 +54,314 @@ extern struct ast;
 /*%start parse*/
 
 %%
-command:        {$$.type="command";$$.in_level->line=0;$$.in_level->next=0;}
-|command ';'            {$$.type="command";$$.in_level->line=$1.in_level->line;$$.in_level->next=$1.in_level->next;
-$1.in_level->prev=$$.in_level->prev;}
-|command new_class ';'  {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command cr_class ';'   {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command cr_func ';'    {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command exp ';'        {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command level  {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command cycle  {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
-|command condition  {$$.type="command";$$.in_level->line=&$2;$$.in_level->next=$1.in_level;
-$1.in_level->prev=$$.in_level;}
+command:        {$$.type="command";
+                  $$.next=0;
+                  $$.prev=0;
+                  printf("%s\n",$$.type); //debug
+}
+|command ';'            {$$.type="empty line";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command new_class ';'  {$$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command cr_class ';'   {$$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command cr_func ';'    {$$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command exp ';'        {$$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command level  {$$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+}
+|command cycle  { $$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+                }
+|command condition  { $$.type="command";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+                    }
+|command EF  {$$.type="EOF";
+                          $$.next=0;
+                          $$.prev=&$1;
+                          $1.next=&$$;
+                          printf("%s\n",$$.type); //debug
+            }
 ;
 
-name: NAME  {$$.type = "Name"; $$.name = $1; printf("%s\n",$$.name);}
-|name NAME  {$$.type = ""; $$.name = $2;$1.type = "type"; printf("%s\n",$$.name);
-            $1.parent = &$$;}
-|name '('')' {$$.type = "Callfunk"; $$.name = concat_strings($1.name, "()"); printf("%s\n",$$.name);}
-| name '.' NAME   { $$.type = "Name"; $$.name = concat_strings($3, $1.name); printf("%s\n",$$.name);}
-| name '(' explist ')'  {$$.type="Callfunk";$$.name=$1.name;$$.args->line=$3.args->line;$$.args->next=$3.args->next;  }
-
-  | name '[' explist ']'    {$$.type="arr_member";$$.name=$1.name;$$.args->line=$3.args->line;$$.args->next=$3.args->next; }
+name: NAME  { $$.type = "Name";
+              $$.name = $1;
+              printf("%s\n",$$.name); //debug
+            }
+|name NAME  {$$.type = "Name";
+            printf("%s\n",$$.type); //debug  
+            $$.name = $2;
+            $1.type = "type";
+            $1.parent = &$$;
+            
+            }
+|name '('')' {
+                $$.type = "Callfunk";
+                printf("%s\n",$$.type); //debug
+                $$.name = concat_strings($1.name, "()");
+                $$.args = 0;
+                
+             }
+| name '.' NAME   { 
+                  $$.type = "Name";
+                  printf("%s\n",$$.type); //debug 
+                  $$.name = concat_strings($3, $1.name); 
+                  
+                  }
+| name '(' explist ')'  {
+                        $$.type="Callfunk";
+                        printf("%s\n",$$.type); //debug
+                        $$.name=$1.name;
+                        $$.args = &$3;
+                        
+                        }
+| name '[' explist ']'    {
+                            $$.type="arr_member";
+                            printf("%s\n",$$.type); //debug
+                            $$.name=$1.name;
+                            $$.args = &$3;
+                            }
 ;
 
-new_class: name  '=' NEW name '(' explist ')' {$$.type=concat_strings("ex_of_class",$4.name); $$.name=$1.name;$$.args->line=$6.args->line;$$.args->next=$6.args->next;}
-|name  '=' NEW name '('  ')' {$$.type=concat_strings("ex_of_class",$4.name); $$.name=$1.name;$$.args->line=0;$$.args->next=0;}
+new_class: name  '=' NEW name '(' explist ')' {
+                                              $$.type=concat_strings("ex_of_class",$4.name);
+                                              printf("%s\n",$$.type); //debug
+                                              $$.name=$1.name;
+                                              }
+|name  '=' NEW name '('  ')' {
+                              $$.type=concat_strings("ex_of_class",$4.name);
+                              printf("%s\n",$$.type); //debug
+                              $$.name=$1.name;
+                              
+                              }
 ;
 
-cr_class: CLASS name'(' explist ')'  level             {$$.type=concat_strings("class",$4.name); $$.name=$2.name;$$.args->line=$6.args->line;$$.args->next=$6.args->next;}
-|CLASS name '('  ')'   level             {}
+cr_class: CLASS name'(' explist ')'  level  {
+                                            $$.type=concat_strings("class",$2.name); 
+                                            printf("%s\n",$$.type); //debug
+                                            $$.name = $2.name;
+                                            $$.in_level = &$6;
+                                            $$.args = &$4;
+                                            }
+|CLASS name '('  ')'   level            {
+                                            $$.type=concat_strings("class",$2.name); 
+                                            printf("%s\n",$$.type); //debug
+                                            $$.name = $2.name;
+                                            $$.in_level = &$5;
+                                            $$.args = 0;
+                                        }
 ;
 
-cr_func: DEF name '(' explist ')' level                {}
-|DEF name '('  ')' level           {}
+cr_func: DEF name '(' explist ')' level     {
+                                            $$.type=concat_strings("func",$4.name); 
+                                            printf("%s\n",$$.type); //debug
+                                            $$.name = $2.name;
+                                            $$.in_level = &$6;
+                                            $$.args = &$4;
+                                            }
+|DEF name '('  ')' level           {
+                                    $$.type=concat_strings("func",$2.name); 
+                                    printf("%s\n",$$.type); //debug
+                                    $$.name = $2.name;
+                                    $$.in_level = &$5;
+                                    $$.args = 0;
+                                    }
 ;
 
-condition: IF '(' exp ')'   level                     {}
-| ELSE   level                                 {}
+condition: IF '(' exp ')'   level         {
+                                            $$.type="conditionIF"; 
+                                            printf("%s\n",$$.type); //debug
+                                            $$.in_level = &$5;
+                                            $$.cond = &$3;
+                                          }
+| ELSE   level                                 {
+                                            $$.type="conditionELSE"; 
+                                            printf("%s\n",$$.type); //debug
+                                            $$.in_level = &$2;
+                                            $$.cond = 0;
+}
 ;
 
-cycle: FOR '('exp ';' exp ';' exp  ')'  level         {}
-| FOR '('name ':' exp ')'   level                     {}
-| WHILE '(' exp ')'     level                         {}
+cycle: FOR '('exp ';' exp ';' exp  ')'  level         { $$.type="FOR"; 
+                                                        printf("%s\n",$$.type); //debug
+                                                        $$.in_level = &$9;
+                                                        $$.init = &$3;
+                                                        $$.cond = &$5;
+                                                        $$.change = &$7;
+                                                      }
+| FOR '('name ':' exp ')'   level                     {$$.type="FOR:"; 
+                                                        printf("%s\n",$$.type); //debug
+                                                        $$.in_level = &$7;
+                                                        $$.init = &$3;
+                                                        $$.cond = &$5;
+                                                      }
+| WHILE '(' exp ')'     level                         {$$.type="WHILE"; 
+                                                        printf("%s\n",$$.type); //debug
+                                                        $$.in_level = &$5;
+                                                        $$.cond = &$3;
+                                                      }
 ;
 
-level: '{'command '}' {$$.type = "lvl"; $$.left_child=&$2;$2.parent=&$$;}
+level: '{'command '}' {
+                        $$.type = "lvl";
+                        printf("%s\n",$$.type); //debug
+                        $$.left_child=&$2;$2.parent=&$$;
+                        }
 ;
 
-exp: exp CMP exp            { $$.type=$2; $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp AND exp             {$$.type="and";  $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp OR exp              {$$.type="or";  $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp '+' exp             {$$.type="+"; $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp '-' exp             {$$.type="-";  $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp '*' exp             {$$.type="*";  $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | exp '/' exp             {$$.type="/";  $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | '(' exp ')'             { $$.type=concat_strings(concat_strings("(",$2.type),")"); $$.left_child = &$2;
-                              $2.parent = &$$; }
-  | '-' exp %prec UMINUS    {$$.type=concat_strings("-",$2.name);  $$.left_child = &$2;
-                              $2.parent = &$$; }
-  | NUMBER                  {$$.type = "Digit"; $$.value = $1; printf("%s\n",$$.value); }
-  | name '=' exp            { $$.type="="; $$.left_child = &$1; $$.right_child = &$3;
-                              $1.parent = &$$; $3.parent = &$$; }
-  | STRING                  { $$.type = "String"; $$.value = $1; printf("%s\n",$$.value); }
-  | name                    {$$.type=$1.type; $$.value = "extern value"; $$.name=$1.name;$$.left_child = &$1;$1.parent = &$$;}
+exp: exp CMP exp            {
+                              $$.type=$2;
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$;
+                              $3.parent = &$$;
+
+                            }
+  | exp AND exp             {
+                              $$.type="and";  
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              }
+  | exp OR exp              {
+                              $$.type="or";  
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                              }
+  | exp '+' exp             {
+                              $$.type="+"; 
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                              }
+  | exp '-' exp             {
+                              $$.type="-";  
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              printf("%s\n",$$.left_child->value); //debug
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                              }
+  | exp '*' exp             {
+                              $$.type="*";  
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                              }
+  | exp '/' exp             {
+                              $$.type="/"; 
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                            }
+  | '(' exp ')'             { 
+                              $$.type=concat_strings(concat_strings("(",$2.type),")"); 
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$2;
+                              $2.parent = &$$; 
+                              
+                            }
+  | '-' exp %prec UMINUS    {
+                              $$.type=concat_strings("-",$2.type);  
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$2;
+                              $2.parent = &$$; 
+                              
+                            }
+  | NUMBER                  {
+                              $$.type = "Digit"; 
+                              printf("%s\n",$$.type); //debug
+                              $$.value = $1; 
+                              
+                            }
+  | name '=' exp            {
+                              $$.type="="; 
+                              printf("%s\n",$$.type); //debug
+                              $$.left_child = &$1; 
+                              $$.right_child = &$3;
+                              $1.parent = &$$; 
+                              $3.parent = &$$; 
+                              
+                            }
+  | STRING                  { 
+                              $$.type = "String"; 
+                              printf("%s\n",$$.type); //debug
+                              $$.value = $1; 
+                            }
+  | name                    {
+                              $$.type=$1.type; 
+                              printf("%s\n",$$.type); //debug
+                              $$.value = "extern value"; 
+                              $$.name=$1.name;$$.left_child = &$1;
+                              $1.parent = &$$;
+                            }
 ;
 
-explist: exp {$$.type="arg";$$.args->line=&$1; }
-  | explist ',' exp {$1.type="arg";$$.type="args";$$.args->next = $1.args;$$.args->line=&$3;    }
+explist: exp {
+                $$.type="arg";
+                printf("%s\n",$$.type); //debug
+                $$.left_child =&$1;
+                $1.parent = &$$;
+                
+              }
+  | explist ',' exp {
+                      $1.type="arg";
+                      $$.type="args";
+                      printf("%s\n",$$.type); //debug
+                      $$.left_child=&$3;
+                      $3.parent = &$$;
+                      $$.prev=&$1;
+                      $1.next = &$3;
+                      }
 ;
 
 

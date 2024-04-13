@@ -37,6 +37,7 @@ EXP ([Ee][-+]?[0-9]+)
 "<=" { yylval.str  = strdup(yytext); return CMP; }
 
   /* keywords */
+"EOF" {return EF;}
 "if"    {      return IF; }
 "and"   {      return AND; }
 "or"    {return OR;}
