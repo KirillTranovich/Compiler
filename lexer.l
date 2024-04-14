@@ -64,7 +64,7 @@ EXP ([Ee][-+]?[0-9]+)
 
 \n { }
 
-. { yyerror( "Mystery character %c\n", *yytext); }
+. { /*yyerror( "Mystery character %c\n", *yytext);*/ }
 
 %%
 int yywrap(){return 1;}
