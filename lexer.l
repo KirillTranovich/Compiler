@@ -1,9 +1,5 @@
 
 
-
-
-
-
 %{
     #include "main.h"
   #include "parser.tab.h"
@@ -31,7 +27,7 @@ EXP ([Ee][-+]?[0-9]+)
 "{" |
 "}" |
 "(" |
-")" { return yytext[0]; }
+")" { yylval.str = strdup(yytext);return yytext[0]; }
 
 ">"  { yylval.str = strdup(yytext);  return CMP; }
 "<"  {  yylval.str = strdup(yytext); return CMP; }
@@ -41,6 +37,7 @@ EXP ([Ee][-+]?[0-9]+)
 "<=" { yylval.str  = strdup(yytext); return CMP; }
 
   /* keywords */
+"EOF" {return EF;}
 "if"    {      return IF; }
 "and"   {      return AND; }
 "or"    {return OR;}
@@ -51,7 +48,7 @@ EXP ([Ee][-+]?[0-9]+)
 "class" {return CLASS;}
 "new" {return NEW;}
   /* names */
-[a-zA-Z][a-zA-Z0-9_-]* {yylval.str  = strdup(yytext); return NAME; }
+[a-zA-Z][a-zA-Z0-9_]* {yylval.str  = strdup(yytext); return NAME; }
 "\""[a-zA-Z0-9_-]*"\"" {yylval.str  = strdup(yytext); return STRING; }
 
 
@@ -67,7 +64,7 @@ EXP ([Ee][-+]?[0-9]+)
 
 \n { }
 
-. { yyerror( "Mystery character %c\n", *yytext); }
+. { /*yyerror( "Mystery character %c\n", *yytext);*/ }
 
 %%
 int yywrap(){return 1;}
