@@ -14,7 +14,7 @@ bison -d parser.y && flex lexer.l && g++ -c lex.yy.c parser.tab.c main.cpp -o pr
 ./prog.exe
 ```
 исполняемый файлик
-##  И как же сие творение выглядеть должно
+##  А как же сие творение выглядеть должно
 ```
 root
 |                     - something...
