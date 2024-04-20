@@ -1,33 +1,69 @@
-
+/*
+root
+|                     - something...
+command---something -
+|                     - something...
+command---something...
+|
+emptyline
+|
+command
+.
+.
+.
+|
+EOF
+//это примерный пример того как я себе представляю структуру аст(... озночает возможный пропуск дальнейших элементов)
+*/
 
 %{
-  #include <cstdio>
-    #include <string>
-    /*#include <iostream>
-    
-    using namespace std;
-    #define YYSTYPE string
-    #define YYERROR_VERBOSE 1
-    
-    int  wrapRet = 1;
-    
-    int yylex(void);
-    extern "C" {
-        int yywrap( void ) {
-            return wrapRet;
-        }
-    }*/
-
-    
-#include <stdio.h>
-#include <stdlib.h>
+//тут валяется структура аст дерева
 #include "main.h"
-#include <string.h>
-#include <stdarg.h>
+//это я не использую делая все ручками без функци но вообще можно задействовать
+struct ast *newast(char *type = 0,
+
+                   char *value = 0,
+                   char *name = 0,
+                   struct ast *parent = 0,
+                   struct ast *left_child = 0,
+                   struct ast *right_child = 0,
+                   struct ast *in_level = 0, // последняя command в {}
+                   struct ast *args = 0,     // последний arg в ()
+                   struct ast *next = 0,     // next arg/command for arg/command
+                   struct ast *prev = 0,     // prev arg/command for arg/command
+                   struct ast *init = 0,     // 1 ard in cycle for
+                   struct ast *cond = 0,     // 2 in for, 1 in if and while
+                   struct ast *change = 0)
+{
+    struct ast *a = (struct ast *)malloc(sizeof(struct ast));
+
+    if (!a)
+    {
+        exit(0);
+    }
+
+    a->type = type;
+    a->value = value;
+    a->name = name;
+    a->parent = parent;
+    a->left_child = left_child;
+    a->right_child = right_child;
+    a->in_level = in_level;
+    a->args = args;
+    a->next = next;
+    a->prev = prev;
+    a->init = init;
+    a->cond = cond;
+    a->change = change;
+    return a;
+}
+//без вот этой штуки ничего не работает не спрашивай что она делает
 extern int yylex(void);
+//без этой тоже
 void yyerror(const char *s);
-//int main();
-struct ast *endroot;
+
+
+struct ast *endroot; //сюда я сложу последний узел дерева
 void allNull(struct ast *a)
 {
     a->type = 0;
@@ -66,14 +102,14 @@ char* concat_strings(char* str1, char* str2) {
     return result;
 }
 %}
-
+//перечисление типов токенов без него(не зн поч) ничего не работает
 %union { 
     struct ast *a;
     double num;
     char *str;
 }
 
-/* declare tokens */
+/* обьявление токенов(базовые неделимые элементы программы) и их типов в <> */
 %token <str> NUMBER
 %token <str> NAME STRING
 
@@ -86,15 +122,32 @@ char* concat_strings(char* str1, char* str2) {
 %left '+' '-'
 %left '*' '/'
 %nonassoc '|' UMINUS
-
+//обьявление типов(по сути что то что собирается из токенов или других типов - усложненные элементы программы)
 %type <a> exp  explist level cr_class cr_func new_class condition cycle name command
 
 /*%start parse*/
 
+/*
+struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a); - выделение памяти под узел a
+
+a->b - альтернатива a.b у указателей(то есть в строчках такого типа я просто заполняю содержимое
+созданного узла инормацией)
+
+как вообще понимать логику всех выражений: читайте про BNF 
+конструкции вида 
+<определяемый символ> : <посл.1>.a  <посл.1>.b <посл.1>.c ...| <посл.2> | . . . | <посл.n> прямиком оттуда
+причем в данном ниже коде $$ - <определяемый символ>
+                          $1 - <посл.1>.a
+                          $2 - <посл.1>.b
+                          и т.д.
+пример: 
+NAME: NAME "." name {} // $$ - NAME(до:) $1 - NAME(после:) $2 - "." $3 - name
+
+*/
 %%
 command:        {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
                   a->type="root";
-                  printf("%s\n","emptyline");
+                  printf("%s\n","emptyline"); //debug
                   a->next=0;
                   a->prev=0;
                   $$=a;
@@ -175,7 +228,7 @@ command:        {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNul
                           printf("%s\n",a->type); //debug
                     }
 |command EF  {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                          a->type="EO";
+                          a->type="EOF";
                           a->next=0;
                           a->prev=$1;
                           $$=a;
@@ -197,13 +250,14 @@ name: NAME  {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a)
             a->type = "Name";
             printf("%s\n",a->type); //debug  
             a->name = $2;
+            a->left_child=$1;
             $$=a;
             $1->type = "type";
             $1->parent = $$;
             
             }
 |name '('')' {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                a->type = "Callfunk";
+                a->type = "Name";
                 printf("%s\n",a->type); //debug
                 a->name = concat_strings($1->name, "()");
                 a->args = 0;
@@ -232,13 +286,16 @@ name: NAME  {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a)
 ;
 
 new_class: name  '=' NEW name '(' explist ')' {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                                              a->type=concat_strings("ex_of_class",$4->name);
+                                              a->type="ex_of_class";
+                                              a->value = $4->name;
                                               printf("%s\n",a->type); //debug
                                               a->name=$1->name;
+                                              a->args = $6;
                                               $$=a;
                                               }
 |name  '=' NEW name '('  ')' {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                              a->type=concat_strings("ex_of_class",$4->name);
+                              a->type="ex_of_class";
+                              a->value = $4->name;
                               printf("%s\n",a->type); //debug
                               a->name=$1->name;
                               $$=a;
@@ -246,7 +303,7 @@ new_class: name  '=' NEW name '(' explist ')' {struct ast *a = (struct ast *)mal
 ;
 
 cr_class: CLASS name'(' explist ')'  level  {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                                            a->type=concat_strings("class",$2->name); 
+                                            a->type="class"; 
                                             printf("%s\n",a->type); //debug
                                             a->name = $2->name;
                                             a->in_level = $6;
@@ -272,7 +329,7 @@ cr_func: DEF name '(' explist ')' level     {struct ast *a = (struct ast *)mallo
                                             $$=a;
                                             }
 |DEF name '('  ')' level           {struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);
-                                    a->type=concat_strings("func",$2->name); 
+                                    a->type="func"; 
                                     printf("%s\n",a->type); //debug
                                     a->name = $2->name;
                                     a->in_level = $5;
@@ -482,7 +539,7 @@ explist: exp {
   | explist ',' exp {
                       struct ast *a = (struct ast *)malloc(sizeof(struct ast));allNull(a);allNull(a);
                       $1->type="arg";
-                      a->type="args";
+                      a->type="arg";
                       printf("%s\n",a->type); //debug
                       a->prev=$1;
                       $$=a;

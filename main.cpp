@@ -55,10 +55,24 @@ void running(struct ast *a)
         running(a->change);
     }
     printf(")");
+    free(a);
 }
 int main()
 {
 
-    yyparse();
-    running(endroot);
+    yyparse(); // вызвал парсинг
+    // все что ниже на данный момент просто дебаг
+    while (endroot->prev != 0)
+    {
+        endroot = endroot->prev;
+        printf("%s\nhis change: ", endroot->type);
+    }
+    printf("\n");
+    while (endroot->next != 0)
+    {
+        endroot = endroot->next;
+        printf("%s\nhis change: ", endroot->type);
+    }
+
+    // running(endroot);
 }
