@@ -69,8 +69,69 @@ EOF
 
 ## А как все плохо( версия для Степы)
 эээээ ну я до сих пор не знаю что делают тестировщики, ты можешь там проверить программу на надежность(пока что она с люой проблемой падает в segmentation fold) и поручить кирилу чделать ее более надежной. Для тебя(твоих тестов) мне надо(наверное) расписать все допустимые сценарии работы нашей программы ну или по крайней мере все допустимые конструкции в нашей программе и я черт возьми сделаю это(крайнюю меру, всеми возможными сценариями просто будем считать все те, что прошли тесты) но сделаю это по Форме Бэкуса — Наура, ибо так всем(мне) будет проще:
+```
+command:        
+|command ';'           
+|command new_class ';'  
+|command cr_class ';'   
+|command cr_func ';'    
+|command exp ';'        
+|command level  
+|command cycle 
+|command condition  
+|command EF  
+;
 
+name: NAME 
+|name NAME  
+|name '('')'
+| name '.' NAME   
+| name '(' explist ')'  
+| name '[' explist ']'    
+;
 
+new_class: name  '=' NEW name '(' explist ')'
+|name  '=' NEW name '('  ')' 
+;
 
+cr_class: CLASS name'(' explist ')'  level 
+|CLASS name '('  ')'   level            
+;
+
+cr_func: DEF name '(' explist ')' level     
+|DEF name '('  ')' level           
+;
+
+condition: IF '(' exp ')'   level         
+| ELSE   level                                 
+;
+
+cycle: FOR '('exp ';' exp ';' exp  ')'  level         
+| FOR '('name ':' exp ')'   level                    
+| WHILE '(' exp ')'     level                        
+;
+
+level: '{'command '}'
+;
+
+exp: exp CMP exp           
+  | exp AND exp            
+  | exp OR exp            
+  | exp '+' exp           
+  | exp '-' exp            
+  | exp '*' exp            
+  | exp '/' exp            
+  | '(' exp ')'            
+  | '-' exp %prec UMINUS                             
+  | NUMBER                  
+  | name '=' exp            
+  | STRING          
+  | name 
+;
+
+explist: exp
+  | explist ',' exp 
+;
+```
 
 
