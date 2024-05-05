@@ -1,33 +1,35 @@
 #include "main.h"
-#include "parser.tab.h"
+#include "parser.hpp"
+#include "lexer.h"
 #include <iostream>
+
 extern struct ast *endroot;
 void running(struct ast *a)
 {
-    printf("name:%s,type:%s,value:%s", a->name, a->type, a->value);
+    // printf("name:%s,type:%s,value:%s", a->name, a->type, a->value);
     /*if (a->parent != 0)
     {
         running(a->parent);
     }*/
-    printf("(");
+    // printf("(");
     if (a->left_child != 0)
     {
-        printf("\nhis left_child: ");
+        // printf("\nhis left_child: ");
         running(a->left_child);
     }
     if (a->right_child != 0)
     {
-        printf("\nhis right_child: ");
+        // printf("\nhis right_child: ");
         running(a->right_child);
     }
     if (a->in_level != 0)
     {
-        printf("\nhis in_level: ");
+        // printf("\nhis in_level: ");
         running(a->in_level);
     }
     if (a->args != 0)
     {
-        printf("\nhis args: ");
+        // printf("\nhis args: ");
         running(a->args);
     }
     /*if (a->next != 0)
@@ -36,42 +38,53 @@ void running(struct ast *a)
     }*/
     if (a->prev != 0)
     {
-        printf("\nhis prev: ");
+        // printf("\nhis prev: ");
         running(a->prev);
     }
     if (a->init != 0)
     {
-        printf("\nhis init: ");
+        // printf("\nhis init: ");
         running(a->init);
     }
     if (a->cond != 0)
     {
-        printf("\nhis cond: ");
+        // printf("\nhis cond: ");
         running(a->cond);
     }
     if (a->change != 0)
     {
-        printf("\nhis change: ");
+        // printf("\nhis change: ");
         running(a->change);
     }
-    printf(")");
+    // printf(")");
     free(a);
 }
 int main()
 {
+    char string[] = "def print(int a, string b, bool c){};EOF ";
+    YY_BUFFER_STATE buffer = yy_scan_string(string);
+    yyparse();
+    yy_delete_buffer(buffer);
+    if (endroot)
+    {
+        std::cout << endroot->type << "lol";
+    }
+    else
+        printf("%s", "no");
+    return 0;
+    // yyparse(); // вызвал парсинг
+    //  все что ниже на данный момент просто дебаг
 
-    yyparse(); // вызвал парсинг
-    // все что ниже на данный момент просто дебаг
     while (endroot->prev != 0)
     {
         endroot = endroot->prev;
-        printf("%s\nhis change: ", endroot->type);
+        // printf("%s\nhis change: ", endroot->type);
     }
-    printf("\n");
+    // printf("\n");
     while (endroot->next != 0)
     {
         endroot = endroot->next;
-        printf("%s\nhis change: ", endroot->type);
+        // printf("%s\nhis change: ", endroot->type);
     }
 
     // running(endroot);
