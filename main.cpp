@@ -61,7 +61,7 @@ void running(struct ast *a)
 }
 int main()
 {
-    char string[] = "2+2;;EOF ";
+    char string[] = "def print(int a, string b, bool c){};EOF ";
     YY_BUFFER_STATE buffer = yy_scan_string(string);
     yyparse();
     yy_delete_buffer(buffer);

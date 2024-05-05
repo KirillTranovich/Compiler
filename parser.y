@@ -94,7 +94,7 @@ void allNull(struct ast *a)
 }
 
 /* обьявление токенов(базовые неделимые элементы программы) и их типов в <> */
-%token <str> NUMBER
+%token <str> NUMBER ERR
 %token <str> NAME STRING
 
 
@@ -163,7 +163,8 @@ command:        {struct ast *a = new ast;
                           a->prev=$1;
                           a->left_child = $2;
                           $$=a;
-                          $1->next=$$;}
+                          $1->next=$$;
+                          std::cout<<"error\n";}
 |command ';'            {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
@@ -356,6 +357,18 @@ name: NAME  {struct ast *a = new ast;
                             $$=a;
                             }
 ;
+| name '['']'    {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                            a->type="arr";
+                            //printf("%s\n",a->type); //debug
+                            a->name=$1->name;
+                            
+                            $$=a;
+                            }
+;
 
 new_class: name  '=' NEW name '(' explist ')' {struct ast *a = new ast;
                   a->first_line = @$.first_line;
@@ -382,7 +395,7 @@ new_class: name  '=' NEW name '(' explist ')' {struct ast *a = new ast;
                               }
 ;
 
-cr_class: CLASS name'(' explist ')'  level  {struct ast *a = new ast;
+cr_class: CLASS name  level  {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
@@ -390,8 +403,8 @@ cr_class: CLASS name'(' explist ')'  level  {struct ast *a = new ast;
                                             a->type="class"; 
                                             //printf("%s\n",a->type); //debug
                                             a->name = $2->name;
-                                            a->in_level = $6;
-                                            a->args = $4;
+                                            a->in_level = $3;
+                                            
                                             $$=a;
                                             }
 |CLASS name '('  ')'   level            {struct ast *a = new ast;
@@ -732,6 +745,13 @@ explist: exp {
 ;
 
 err: {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                          a->type="error";
+                          $$ = a;}
+|err ERR{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;

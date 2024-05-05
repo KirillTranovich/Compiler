@@ -66,7 +66,7 @@ EXP ([Ee][-+]?[0-9]+)
 
 \n { yycolumn = 1;}
 
-. { /*yyerror( "Mystery character %c\n", *yytext);*/ }
+. { yylval.str  = strdup(yytext); return ERR; }
 
 %%
 int yywrap(){return 1;}
