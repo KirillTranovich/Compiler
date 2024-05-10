@@ -1,5 +1,0 @@
-int i = 2;
-while(i>0)
-{priht(i);
-i=i-1;}
-EOF

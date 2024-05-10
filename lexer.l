@@ -43,6 +43,7 @@ EXP ([Ee][-+]?[0-9]+)
 
   /* keywords */
 "EOF" {return EF;}
+"return" {return RET;}
 "if"    {      return IF; }
 "and"   {      return AND; }
 "or"    {return OR;}
@@ -54,17 +55,17 @@ EXP ([Ee][-+]?[0-9]+)
 "new" {return NEW;}
   /* names */
 [a-zA-Z][a-zA-Z0-9_]* {yylval.str  = strdup(yytext); printf("%s\n","ok"); return NAME; }
-"\""[a-zA-Z0-9_-]*"\"" {yylval.str  = strdup(yytext); return STRING; }
+"\""[^\"]*"\"" {yylval.str  = strdup(yytext); return STRING; }
 
 
 [0-9]+"."[0-9]*{EXP}? |
 "."?[0-9]+{EXP}? { yylval.str  = strdup(yytext); return NUMBER; }
-
+" " {/*yycolumn = yycolumn+1;*/}
 [ \t] { /* ignore whitespace */ }
 
-\\\n {yycolumn = 1; } /* ignore line continuation */
+\\\n {/*yycolumn = 1;*/ } /* ignore line continuation */
 
-\n { yycolumn = 1;}
+\n { /*yycolumn = 1;*/}
 
 . { yylval.str  = strdup(yytext); return ERR; }
 

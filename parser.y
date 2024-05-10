@@ -62,10 +62,10 @@ struct ast *newast(char *type = 0,
 //без вот этой штуки ничего не работает не спрашивай что она делает
 extern int yylex(void);
 //без этой тоже
-void yyerror(const char *s);
+void yyerror(struct ast *endroot, const char *s);
 
 
-struct ast *endroot; //сюда я сложу последний узел дерева
+//struct ast *endroot; //сюда я сложу последний узел дерева
 void allNull(struct ast *a)
 {
     a->type = "";
@@ -85,7 +85,7 @@ void allNull(struct ast *a)
 
 %}
 %locations
-//%parse-param{struct ast *endroot}
+%parse-param{struct ast *endroot}
 //перечисление типов токенов без него(не зн поч) ничего не работает
 %union { 
     struct ast *a;
@@ -98,7 +98,7 @@ void allNull(struct ast *a)
 %token <str> NAME STRING
 
 
-%token IF ELSE WHILE FOR DEF CLASS NEW AND OR EF
+%token IF ELSE WHILE FOR DEF CLASS NEW AND OR EF RET
 
 %nonassoc <str> CMP
 %right '='
@@ -107,7 +107,7 @@ void allNull(struct ast *a)
 %left '*' '/'
 %nonassoc '|' UMINUS
 //обьявление типов(по сути что то что собирается из токенов или других типов - усложненные элементы программы)
-%type <a> exp  explist level cr_class cr_func new_class condition cycle name command err
+%type <a> exp  explist level cr_class cr_func new_class condition cycle name command err return
 /*%start parse*/
 
 /*
@@ -158,7 +158,7 @@ command:        {struct ast *a = new ast;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="error";
+                          a->type="command";
                           a->next=0;
                           a->prev=$1;
                           a->left_child = $2;
@@ -226,7 +226,21 @@ command:        {struct ast *a = new ast;
                           a->next=0;
                           a->left_child = $2;
                           a->prev=$1;
+                          
+                          $$=a;
+                          $1->next=$$;
+                          std::cout<<a->type; //debug
+}
+|command return ';'        {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                          a->type="command";
+                          a->next=0;
                           a->left_child = $2;
+                          a->prev=$1;
+                          
                           $$=a;
                           $1->next=$$;
                           std::cout<<a->type; //debug
@@ -280,7 +294,7 @@ command:        {struct ast *a = new ast;
                           a->prev=$1;
                           $$=a;
                           $1->next=$$;
-                          endroot = $$;
+                          endroot->next = $$;
                           //printf("%s\n","EOF"); //debug
                           
                           
@@ -311,17 +325,7 @@ name: NAME  {struct ast *a = new ast;
             $1->parent = $$;
             
             }
-|name '('')' {struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                a->type = "Name()";
-                //printf("%s\n",a->type); //debug
-                a->name = $1->name;
-                a->args = 0;
-                $$=a;
-             }
+
 | name '.' NAME   { struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
@@ -334,42 +338,39 @@ name: NAME  {struct ast *a = new ast;
                   $$=a;
                   $1->type = "name";
                   }
-| name '(' explist ')'  {struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                        a->type="Callfunk";
-                        //printf("%s\n",a->type); //debug
-                        a->name=$1->name;
-                        a->args = $3;
-                        $$=a;
-                        }
-| name '[' explist ']'    {struct ast *a = new ast;
+| NAME '[' explist ']'    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
                             a->type="arr_member";
                             //printf("%s\n",a->type); //debug
-                            a->name=$1->name;
+                            a->name=$1;
                             a->args = $3;
                             $$=a;
                             }
-;
-| name '['']'    {struct ast *a = new ast;
+| NAME '['']'    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
                             a->type="arr";
                             //printf("%s\n",a->type); //debug
-                            a->name=$1->name;
+                            a->name=$1;
                             
                             $$=a;
                             }
 ;
 
+return: RET exp {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                  a->type="return";
+                  a->left_child = $2;
+                  $2->parent = a;
+                  $$ = a; }
 new_class: name  '=' NEW name '(' explist ')' {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
@@ -699,26 +700,51 @@ exp: exp CMP exp            {
                               $$ = a;
                             }
   | name                    {
-                              struct ast *a = new ast;
+                              /*struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                              a->type=$1->type; 
+                              a->type=$1->type; */
                               printf("%s\n","Nameinexpr"); //debug
-                              a->value = "extern value"; 
-                              a->name=$1->name;a->left_child = $1;
-                              $$ = a;
-                              $1->parent = $$;
+                              //a->value = "names value"; 
+                              //a->name=$1->name;a->left_child = $1;
+                              $$ = $1;
+                              //$1->parent = $$;
                             }
+|NAME '('')' {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                a->type = "Name()";
+                //printf("%s\n",a->type); //debug
+                a->name = $1;
+                a->args = 0;
+                $$=a;
+             }
+
+| NAME '(' explist ')'  {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                        a->type="Callfunk_name";
+                        //printf("%s\n",a->type); //debug
+                        a->name=$1;
+                        a->args = $3;
+                        $$=a;
+                        }
 ;
 
 explist: exp {
                 struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
+                a->first_line = @$.first_line;
+                a->last_line = @$.last_line;
+                a->last_column = @$.last_column;
+                a->first_column = @$.first_column;
+                std::cout<< @$.first_line;
+                std::cout<< a->first_line;
                 a->type="arg";
                 //printf("%s\n",a->type); //debug
                 a->left_child =$1;
@@ -731,7 +757,7 @@ explist: exp {
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;allNull(a);
+                  a->first_column = @$.first_column;
                       $1->type="arg";
                       a->type="arg";
                       //printf("%s\n",a->type); //debug
@@ -740,7 +766,7 @@ explist: exp {
                       a->left_child=$3;
                       $3->parent = $$;
                       
-                      $1->next = $3;
+                      $1->next = $$;
                       }
 ;
 
@@ -758,222 +784,210 @@ err: {struct ast *a = new ast;
                   a->first_column = @$.first_column;
                           a->type="error";
                           $$ = a;}
-|err  exp {struct ast *a = new ast;
+/*|err  exp {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err explist  {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err level   {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err cr_class  {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;} 
 |err cr_func   {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err new_class   {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err condition  {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;} 
 |err cycle   {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
-|err name {struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                          a->type="command";
-                          $$ = a;}
+*/
 |err IF    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err ELSE    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err WHILE   {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;} 
 |err FOR    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err DEF    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err CLASS    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err NEW    {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
-|err AND    {struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                          a->type="command";
-                          $$ = a;}
-|err OR    {struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                          a->type="command";
-                          $$ = a;}
-|err EF{struct ast *a = new ast;
-                  a->first_line = @$.first_line;
-                  a->last_line = @$.last_line;
-                  a->last_column = @$.last_column;
-                  a->first_column = @$.first_column;
-                          a->type="command";
-                          $$ = a;}
+
 |err CMP{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err '='{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err AND {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err OR{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err '+' {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err '-'{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err '*' {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err '/'{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
-|err '|' UMINUS{struct ast *a = new ast;
+|err ';'{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
+                          $$ = a;}
+|err '|' {struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                          a->type="error";
+                          $$ = a;}
+|err UMINUS{struct ast *a = new ast;
+                  a->first_line = @$.first_line;
+                  a->last_line = @$.last_line;
+                  a->last_column = @$.last_column;
+                  a->first_column = @$.first_column;
+                          a->type="error";
                           $$ = a;}
 |err NUMBER{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err NAME {struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 |err STRING{struct ast *a = new ast;
                   a->first_line = @$.first_line;
                   a->last_line = @$.last_line;
                   a->last_column = @$.last_column;
                   a->first_column = @$.first_column;
-                          a->type="command";
+                          a->type="error";
                           $$ = a;}
 
 
@@ -981,7 +995,7 @@ err: {struct ast *a = new ast;
 
 
 %%
-void yyerror(const char *s)
+void yyerror(struct ast *endroot,const char *s)
 {
 //printf(stderr, "err: %s\n", s);
 }
