@@ -3,7 +3,115 @@
 #include "lexer.h"
 #include <iostream>
 
-// extern struct ast *endroot;
+ast *newast(ast t = {})
+{
+    struct ast *a = new ast;
+
+    if (!a)
+    {
+        std::cout << "cant create ast note" << std::endl;
+        exit(0);
+    }
+    if (t.first_column)
+    {
+        a->first_column = t.first_column;
+    }
+    if (t.last_column)
+    {
+        a->last_column = t.last_column;
+    }
+    if (t.type != "")
+    {
+        a->type = t.type;
+    }
+    if (t.value != "")
+    {
+        a->value = t.value;
+    }
+    if (t.name != "")
+    {
+        a->name = t.name;
+    }
+
+    if (t.left_child)
+    {
+        // a->left_child = t.left_child;
+        ast *tmp = t.left_child;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->left_child = tmp;
+        tmp->parent = a;
+
+        t.left_child->parent = a;
+    }
+    if (t.right_child)
+    {
+        a->right_child = t.right_child;
+        t.right_child->parent = a;
+    }
+    if (t.in_level)
+    {
+        ast *tmp = t.in_level;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->in_level = tmp;
+    }
+    if (t.args)
+    {
+        ast *tmp = t.args;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->args = tmp;
+    }
+    if (t.next)
+    {
+        a->next = t.next;
+        t.next->prev = a;
+    }
+    if (t.prev)
+    {
+        a->prev = t.prev;
+        t.prev->next = a;
+    }
+    if (t.init)
+    {
+        ast *tmp = t.init;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->init = tmp;
+    }
+    if (t.cond)
+    {
+        a->cond = t.cond;
+        /*ast *tmp = t.cond;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->cond = tmp;
+
+        */
+    }
+    if (t.change)
+    {
+        ast *tmp = t.change;
+        while (tmp->prev)
+        {
+            tmp = tmp->prev;
+        }
+        a->change = tmp;
+    }
+    return a;
+}
+
 void printlvl(int lvl)
 {
     std::cout << "\n";
@@ -19,7 +127,7 @@ void running(struct ast *a, int lvl)
     std::cout
         << " " << a->name << " " << a->type << " " << a->value << " "
         << a->first_column << " " << a->last_column << " "
-        << a->first_line << " " << a->last_line << "\n(";
+        << "\n(";
     ++lvl;
     /*if (a->parent != 0)
     {
@@ -46,14 +154,14 @@ void running(struct ast *a, int lvl)
     }
     if (a->in_level != 0)
     {
-        ast *tmp = a->args;
+        /*ast *tmp = a->args;
         while (tmp->prev)
         {
             tmp = tmp->prev;
         }
         a->args = tmp;
-        delete tmp;
-        tmp = 0;
+
+        */
         printlvl(lvl);
 
         std::cout
@@ -69,8 +177,7 @@ void running(struct ast *a, int lvl)
             tmp = tmp->prev;
         }
         a->args = tmp;
-        delete tmp;
-        tmp = 0;
+
         printlvl(lvl);
 
         std::cout
@@ -91,8 +198,7 @@ void running(struct ast *a, int lvl)
             tmp = tmp->prev;
         }
         a->args = tmp;
-        delete tmp;
-        tmp = 0;
+
         printlvl(lvl);
 
         std::cout
@@ -102,14 +208,14 @@ void running(struct ast *a, int lvl)
     }
     if (a->cond != 0)
     {
-        ast *tmp = a->args;
+        /*ast *tmp = a->args;
         while (tmp->prev)
         {
             tmp = tmp->prev;
         }
         a->args = tmp;
-        delete tmp;
-        tmp = 0;
+
+        */
         printlvl(lvl);
 
         std::cout
@@ -125,8 +231,7 @@ void running(struct ast *a, int lvl)
             tmp = tmp->prev;
         }
         a->args = tmp;
-        delete tmp;
-        tmp = 0;
+
         printlvl(lvl);
 
         std::cout
@@ -153,38 +258,41 @@ void running(struct ast *a, int lvl)
     delete a;
     a = 0;
 }
+
+ast *give_me_tree(char *s)
+{
+
+    struct ast *root = new ast;
+    YY_BUFFER_STATE buffer = yy_scan_string(s);
+    buffer->yy_bs_lineno = 1;
+    buffer->yy_bs_column = 0;
+    yyparse(root);
+    yy_delete_buffer(buffer);
+    return root;
+}
 int main()
 {
-    struct ast endrootnotaptr = {};
-    char string[] = "int a = \"adfadf''''45r1231><===adf\";EOF";
-    YY_BUFFER_STATE buffer = yy_scan_string(string);
-    yyparse(&endrootnotaptr);
-    struct ast *endroot = endrootnotaptr.next;
-    yy_delete_buffer(buffer);
-    if (endroot)
-    {
 
-        std::cout
-            << " " << endroot->type << " "
-            << "lol";
+    char string[] = "print(1);int i = 1;===EOF";
+
+    // printf("%s", "norm");
+    for (int i = 1; i < 3; ++i)
+    {
+        ast *root = give_me_tree(string);
+
+        if (root)
+        {
+
+            std::cout
+                << " " << root->type << " "
+                << "lol";
+        }
+        else
+            printf("%s", "no");
+
+        // yyparse(); // вызвал парсинг
+        //  все что ниже на данный момент просто дебаг
+
+        running(root, 0);
     }
-    else
-        printf("%s", "no");
-
-    // yyparse(); // вызвал парсинг
-    //  все что ниже на данный момент просто дебаг
-
-    while (endroot->prev != 0)
-    {
-        endroot = endroot->prev;
-        // printf("%s\nhis change: ", endroot->type);
-    }
-    // printf("\n");
-    /*while (endroot->next != 0)
-    {
-        endroot = endroot->next;
-        // printf("%s\nhis change: ", endroot->type);
-    }*/
-
-    running(endroot, 0);
 }

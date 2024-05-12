@@ -9,8 +9,7 @@
 #include <iostream>
 struct ast
 {
-    int first_line = 0;
-    int last_line = 0;
+
     int first_column = 0;
     int last_column = 0;
     std::string type = "";
@@ -27,6 +26,5 @@ struct ast
     struct ast *cond = 0;     // 2 in for, 1 in if and while
     struct ast *change = 0;   // 3 in for
 };
-// struct ast *endroot;
 
 #endif

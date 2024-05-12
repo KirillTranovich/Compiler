@@ -1,10 +1,11 @@
 
 
 %{
-    #include "C:\Users\packard\Desktop\real_work_compil\main.h"
+    #include "main.h"
   #include "parser.hpp"
   /* handle locations */
 int yycolumn = 1;
+
 #define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
  yylloc.first_column = yycolumn; yylloc.last_column = yycolumn+yyleng-1; \
  yycolumn += yyleng;
@@ -13,6 +14,7 @@ int yycolumn = 1;
 %option yylineno 
 /* float exponent */
 EXP ([Ee][-+]?[0-9]+)
+
 
 %%
 
@@ -42,7 +44,7 @@ EXP ([Ee][-+]?[0-9]+)
 "<=" { yylval.str  = strdup(yytext); return CMP; }
 
   /* keywords */
-"EOF" {return EF;}
+"EOF" {yycolumn = 1;return EF;}
 "return" {return RET;}
 "if"    {      return IF; }
 "and"   {      return AND; }
@@ -59,15 +61,15 @@ EXP ([Ee][-+]?[0-9]+)
 
 
 [0-9]+"."[0-9]*{EXP}? |
-"."?[0-9]+{EXP}? { yylval.str  = strdup(yytext); return NUMBER; }
-" " {/*yycolumn = yycolumn+1;*/}
-[ \t] { /* ignore whitespace */ }
+"."?[0-9]+{EXP}? {std::cout<< yylloc.first_column<<std::endl; yylval.str  = strdup(yytext); std::cout<<"read num"; return NUMBER; }
+" " {}
+[ \t] { }
 
 \\\n {/*yycolumn = 1;*/ } /* ignore line continuation */
 
-\n { /*yycolumn = 1;*/}
+\n { }
 
-. { yylval.str  = strdup(yytext); return ERR; }
+. { yycolumn = 1;yylval.str  = strdup(yytext); std::cout<<"read err"<<std::endl; return ERR; }
 
 %%
 int yywrap(){return 1;}
