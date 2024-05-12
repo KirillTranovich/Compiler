@@ -1,0 +1,3 @@
+C:/Users/packard/Desktop/real_work_compil/build/CMakeFiles/a.out.dir
+C:/Users/packard/Desktop/real_work_compil/build/CMakeFiles/edit_cache.dir
+C:/Users/packard/Desktop/real_work_compil/build/CMakeFiles/rebuild_cache.dir
