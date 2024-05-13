@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/packard/Desktop/real_work_compil
+# Install script for directory: C:/Users/packard/Desktop/test_coml/Compiler
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/packard/Desktop/real_work_compil/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/packard/Desktop/test_coml/Compiler/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

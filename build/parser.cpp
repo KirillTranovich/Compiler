@@ -67,111 +67,13 @@
 
 
 /* First part of user prologue.  */
-#line 21 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 21 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
 
 //тут валяется структура аст дерева
 #include "main.h"
 
 //функция возвращает ссылку на озданный узел
-ast *newast(ast t = {})
-{
-    struct ast *a = new ast;
 
-    if (!a)
-    {
-        std::cout << "cant create ast note" << std::endl;
-        exit(0);
-    }
-    if (t.first_column)
-    {
-        a->first_column = t.first_column;
-    }
-    if (t.last_column)
-    {
-        a->last_column = t.last_column;
-    }
-    if (t.type)
-    {
-        a->type = t.type;
-    }
-    if (t.value != "")
-    {
-        a->value = t.value;
-    }
-    if (t.name != "")
-    {
-        a->name = t.name;
-    }
-
-    if (t.left_child)
-    {
-        ast *tmp = t.left_child;
-        while (tmp->prev)
-        {
-            tmp = tmp->prev;
-        }
-        a->left_child = tmp;
-        tmp->parent = a;
-
-        t.left_child->parent = a;
-    }
-    if (t.right_child)
-    {
-        a->right_child = t.right_child;
-        t.right_child->parent = a;
-    }
-    if (t.in_level)
-    {
-        ast *tmp = t.in_level;
-        while (tmp->prev)
-        {
-            tmp = tmp->prev;
-        }
-        a->in_level = tmp;
-    }
-    if (t.args)
-    {
-        ast *tmp = t.args;
-        while (tmp->prev)
-        {
-            tmp = tmp->prev;
-        }
-        a->args = tmp;
-    }
-    if (t.next)
-    {
-        a->next = t.next;
-        t.next->prev = a;
-    }
-    if (t.prev)
-    {
-        a->prev = t.prev;
-        t.prev->next = a;
-    }
-    if (t.init)
-    {
-        ast *tmp = t.init;
-        while (tmp->prev)
-        {
-            tmp = tmp->prev;
-        }
-        a->init = tmp;
-    }
-    if (t.cond)
-    {
-        a->cond = t.cond;
-    }
-    if (t.change)
-    {
-        ast *tmp = t.change;
-        while (tmp->prev)
-        {
-            tmp = tmp->prev;
-        }
-        a->change = tmp;
-    }
-    return a;
-}
 
 //без вот этой штуки ничего не работает не спрашивай что она делает
 extern int yylex(void);
@@ -182,7 +84,7 @@ void yyerror(struct ast *endroot, const char *s);
 
 
 
-#line 186 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 88 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -648,11 +550,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   188,   188,   202,   205,   208,   211,   214,   217,   220,
-     223,   226,   229,   236,   239,   244,   247,   250,   255,   258,
-     261,   266,   269,   274,   277,   282,   286,   292,   296,   300,
-     306,   312,   316,   320,   324,   327,   331,   335,   339,   343,
-     347,   351,   355,   359,   363,   367,   372,   376
+       0,    90,    90,   104,   107,   110,   113,   116,   119,   122,
+     125,   128,   131,   138,   141,   146,   149,   152,   157,   160,
+     163,   168,   171,   176,   179,   184,   188,   194,   198,   202,
+     208,   214,   218,   222,   226,   229,   233,   237,   241,   245,
+     249,   253,   257,   261,   265,   269,   274,   278
 };
 #endif
 
@@ -1429,10 +1331,10 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* command: %empty  */
-#line 188 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 90 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                 {
         
-    (yyval.a)=newast({.first_column = (yylloc).first_column,.last_column =(yylloc).last_column, .type = StartLvl,});
+    (yyval.a)=ast::newast({.first_column = (yylloc).first_column,.last_column =(yylloc).last_column, .type = StartLvl,});
 
     if((yylloc).first_column == 1){endroot->next = (yyval.a);
                             endroot->type = Error;
@@ -1443,393 +1345,393 @@ yyreduce:
                   
 
 }
-#line 1447 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1349 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 3: /* command: command ';'  */
-#line 202 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 104 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = EmptyLine,.prev=(yyvsp[-1].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = EmptyLine,.prev=(yyvsp[-1].a)});
 }
-#line 1455 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1357 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 4: /* command: command new_class ';'  */
-#line 205 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 107 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column,.type = Command, .left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column,.type = Command, .left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
 }
-#line 1463 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1365 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 5: /* command: command cr_class ';'  */
-#line 208 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 110 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
 }
-#line 1471 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1373 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 6: /* command: command cr_func ';'  */
-#line 211 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 113 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
 }
-#line 1479 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1381 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 7: /* command: command exp ';'  */
-#line 214 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 116 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
 }
-#line 1487 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1389 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 8: /* command: command return ';'  */
-#line 217 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 119 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                            {
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Command,.left_child = (yyvsp[-1].a),.prev=(yyvsp[-2].a)});
 }
-#line 1495 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1397 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 9: /* command: command level  */
-#line 220 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 122 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                 {
-    (yyval.a)=newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
 }
-#line 1503 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1405 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 10: /* command: command cycle  */
-#line 223 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 125 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                 { 
-    (yyval.a)=newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
 }
-#line 1511 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1413 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 11: /* command: command condition  */
-#line 226 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 128 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                     {
-    (yyval.a)=newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
+    (yyval.a)=ast::newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Command,.left_child = (yyvsp[0].a),.prev=(yyvsp[-1].a)});
 }
-#line 1519 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1421 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 12: /* command: command EF  */
-#line 229 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 131 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
              {    
     (yylloc).first_column =1;                       
     YYACCEPT;                         
 }
-#line 1528 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1430 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 13: /* name: NAME  */
-#line 236 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 138 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
             {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Name,.name=(yyvsp[0].str)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Name,.name=(yyvsp[0].str)});
 }
-#line 1536 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1438 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 14: /* name: name NAME  */
-#line 239 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 141 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
             {
-    (yyval.a)=newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Name,.name=(yyvsp[0].str),.left_child = (yyvsp[-1].a),});
+    (yyval.a)=ast::newast({.first_column = (yylsp[0]).first_column,.last_column = (yylsp[0]).last_column, .type = Name,.name=(yyvsp[0].str),.left_child = (yyvsp[-1].a),});
     (yyvsp[-1].a)->type = Type;
 }
-#line 1545 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1447 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 15: /* name: name '.' NAME  */
-#line 244 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 146 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                   { 
-    (yyval.a)=newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Name,.name=(yyvsp[0].str),.left_child = (yyvsp[-2].a),});
+    (yyval.a)=ast::newast({.first_column = (yylsp[-1]).first_column,.last_column = (yylsp[-1]).last_column, .type = Name,.name=(yyvsp[0].str),.left_child = (yyvsp[-2].a),});
 }
-#line 1553 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1455 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 16: /* name: NAME '[' explist ']'  */
-#line 247 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 149 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                           {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ArrMember,.name=(yyvsp[-3].str),.args = (yyvsp[-1].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ArrMember,.name=(yyvsp[-3].str),.args = (yyvsp[-1].a),});
 }
-#line 1561 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1463 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 17: /* name: NAME '[' ']'  */
-#line 250 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 152 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                  {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arr,.name=(yyvsp[-2].str)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arr,.name=(yyvsp[-2].str)});
 }
-#line 1569 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1471 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 18: /* return: RET exp  */
-#line 255 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 157 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                 {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Return,.left_child = (yyvsp[0].a),}); 
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Return,.left_child = (yyvsp[0].a),}); 
 }
-#line 1577 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1479 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 19: /* new_class: name '=' NEW name '(' explist ')'  */
-#line 258 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 160 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                               {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Ex_of_class,.value = (yyvsp[-3].a)->name,.name=(yyvsp[-6].a)->name,.args = (yyvsp[-1].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Ex_of_class,.value = (yyvsp[-3].a)->name,.name=(yyvsp[-6].a)->name,.args = (yyvsp[-1].a),});
 }
-#line 1585 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1487 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 20: /* new_class: name '=' NEW name '(' ')'  */
-#line 261 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 163 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                              {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Ex_of_class,.value = (yyvsp[-2].a)->name,.name=(yyvsp[-5].a)->name,});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Ex_of_class,.value = (yyvsp[-2].a)->name,.name=(yyvsp[-5].a)->name,});
 }
-#line 1593 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1495 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 21: /* cr_class: CLASS name level  */
-#line 266 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 168 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                              {
-(yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Class,.name=(yyvsp[-1].a)->name,.in_level = (yyvsp[0].a)});
+(yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Class,.name=(yyvsp[-1].a)->name,.in_level = (yyvsp[0].a)});
 }
-#line 1601 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1503 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 22: /* cr_class: CLASS name '(' ')' level  */
-#line 269 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 171 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                         {
-(yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Class,.name=(yyvsp[-3].a)->name,.in_level = (yyvsp[0].a)});
+(yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Class,.name=(yyvsp[-3].a)->name,.in_level = (yyvsp[0].a)});
 }
-#line 1609 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1511 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 23: /* cr_func: DEF name '(' explist ')' level  */
-#line 274 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 176 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                             {
-(yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Funk,.name=(yyvsp[-4].a)->name,.in_level = (yyvsp[0].a),.args = (yyvsp[-2].a),});
+(yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Funk,.name=(yyvsp[-4].a)->name,.in_level = (yyvsp[0].a),.args = (yyvsp[-2].a),});
 }
-#line 1617 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1519 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 24: /* cr_func: DEF name '(' ')' level  */
-#line 277 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 179 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                    {
-(yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Funk,.name=(yyvsp[-3].a)->name,.in_level = (yyvsp[0].a)});
+(yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Funk,.name=(yyvsp[-3].a)->name,.in_level = (yyvsp[0].a)});
 }
-#line 1625 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1527 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 25: /* condition: IF '(' exp ')' level  */
-#line 282 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 184 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                           {
                                            
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ConditionIF,.in_level = (yyvsp[0].a),.cond=(yyvsp[-2].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ConditionIF,.in_level = (yyvsp[0].a),.cond=(yyvsp[-2].a),});
 }
-#line 1634 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1536 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 26: /* condition: ELSE level  */
-#line 286 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 188 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                                {
                                             
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ConditionELSE,.in_level = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = ConditionELSE,.in_level = (yyvsp[0].a)});
 }
-#line 1643 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1545 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 27: /* cycle: FOR '(' exp ';' exp ';' exp ')' level  */
-#line 292 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 194 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                                       { 
                                                       
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = For,.in_level = (yyvsp[0].a),.init = (yyvsp[-6].a),.cond=(yyvsp[-4].a),.change = (yyvsp[-2].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = For,.in_level = (yyvsp[0].a),.init = (yyvsp[-6].a),.cond=(yyvsp[-4].a),.change = (yyvsp[-2].a)});
 }
-#line 1652 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1554 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 28: /* cycle: FOR '(' name ':' exp ')' level  */
-#line 296 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 198 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                                       {
                                                        
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = For,.in_level = (yyvsp[0].a),.init = (yyvsp[-4].a),.cond=(yyvsp[-2].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = For,.in_level = (yyvsp[0].a),.init = (yyvsp[-4].a),.cond=(yyvsp[-2].a),});
 }
-#line 1661 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1563 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 29: /* cycle: WHILE '(' exp ')' level  */
-#line 300 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 202 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                                       {
                                                         
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = While,.in_level = (yyvsp[0].a),.cond=(yyvsp[-2].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = While,.in_level = (yyvsp[0].a),.cond=(yyvsp[-2].a),});
 }
-#line 1670 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1572 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 30: /* level: '{' command '}'  */
-#line 306 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 208 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                       {
  
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Lvl,.left_child = (yyvsp[-1].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Lvl,.left_child = (yyvsp[-1].a),});
 }
-#line 1679 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1581 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 31: /* exp: exp CMP exp  */
-#line 312 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 214 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
   
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Cmp,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Cmp,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1688 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1590 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 32: /* exp: exp AND exp  */
-#line 316 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 218 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = And,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = And,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1697 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1599 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 33: /* exp: exp OR exp  */
-#line 320 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 222 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Or,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Or,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1706 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1608 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 34: /* exp: exp '+' exp  */
-#line 324 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 226 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Add,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Add,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1714 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1616 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 35: /* exp: exp '-' exp  */
-#line 327 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 229 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Sub,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Sub,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1723 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1625 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 36: /* exp: exp '*' exp  */
-#line 331 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 233 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Mull,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Mull,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1732 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1634 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 37: /* exp: exp '/' exp  */
-#line 335 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 237 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Div,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Div,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1741 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1643 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 38: /* exp: '(' exp ')'  */
-#line 339 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 241 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             { 
     
     (yyval.a) = (yyvsp[-1].a);
 }
-#line 1750 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1652 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 39: /* exp: '-' exp  */
-#line 343 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 245 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type =Unminus,.left_child = (yyvsp[0].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type =Unminus,.left_child = (yyvsp[0].a),});
 }
-#line 1759 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1661 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 40: /* exp: NUMBER  */
-#line 347 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 249 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Digit,.value = (yyvsp[0].str)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Digit,.value = (yyvsp[0].str)});
 }
-#line 1768 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1670 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 41: /* exp: name '=' exp  */
-#line 351 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 253 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                                 {
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Eq,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Eq,.left_child = (yyvsp[-2].a),.right_child = (yyvsp[0].a)});
 }
-#line 1777 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1679 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 42: /* exp: STRING  */
-#line 355 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 257 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             { 
     
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = String,.value = (yyvsp[0].str)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = String,.value = (yyvsp[0].str)});
 }
-#line 1786 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1688 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 43: /* exp: name  */
-#line 359 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 261 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                             {
                               
     (yyval.a) = (yyvsp[0].a);
 }
-#line 1795 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1697 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 44: /* exp: NAME '(' ')'  */
-#line 363 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 265 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
              {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Name,.name = (yyvsp[-2].str)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Name,.name = (yyvsp[-2].str)});
 }
-#line 1803 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1705 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 45: /* exp: NAME '(' explist ')'  */
-#line 367 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 269 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                         {
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = CallfunkName,.name = (yyvsp[-3].str),.args = (yyvsp[-1].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = CallfunkName,.name = (yyvsp[-3].str),.args = (yyvsp[-1].a)});
 }
-#line 1811 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1713 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 46: /* explist: exp  */
-#line 372 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 274 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
              {
                 
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arg,.left_child=(yyvsp[0].a)});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arg,.left_child=(yyvsp[0].a)});
 }
-#line 1820 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1722 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
   case 47: /* explist: explist ',' exp  */
-#line 376 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 278 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
                     {
                      
-    (yyval.a)=newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arg,.left_child =(yyvsp[0].a),.prev = (yyvsp[-2].a),});
+    (yyval.a)=ast::newast({.first_column = (yyloc).first_column,.last_column = (yyloc).last_column, .type = Arg,.left_child =(yyvsp[0].a),.prev = (yyvsp[-2].a),});
 }
-#line 1829 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1731 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
     break;
 
 
-#line 1833 "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp"
+#line 1735 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp"
 
       default: break;
     }
@@ -2027,7 +1929,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 384 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 286 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
 
 void yyerror(struct ast *endroot,const char *s)
 {

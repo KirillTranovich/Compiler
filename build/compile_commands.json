@@ -1,20 +1,20 @@
 [
 {
-  "directory": "C:/Users/packard/Desktop/real_work_compil/build",
-  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\main.cpp.obj -c C:\\Users\\packard\\Desktop\\real_work_compil\\main.cpp",
-  "file": "C:/Users/packard/Desktop/real_work_compil/main.cpp",
+  "directory": "C:/Users/packard/Desktop/test_coml/Compiler/build",
+  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\main.cpp.obj -c C:\\Users\\packard\\Desktop\\test_coml\\Compiler\\main.cpp",
+  "file": "C:/Users/packard/Desktop/test_coml/Compiler/main.cpp",
   "output": "CMakeFiles/a.out.dir/main.cpp.obj"
 },
 {
-  "directory": "C:/Users/packard/Desktop/real_work_compil/build",
-  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\parser.cpp.obj -c C:\\Users\\packard\\Desktop\\real_work_compil\\build\\parser.cpp",
-  "file": "C:/Users/packard/Desktop/real_work_compil/build/parser.cpp",
+  "directory": "C:/Users/packard/Desktop/test_coml/Compiler/build",
+  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\parser.cpp.obj -c C:\\Users\\packard\\Desktop\\test_coml\\Compiler\\build\\parser.cpp",
+  "file": "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp",
   "output": "CMakeFiles/a.out.dir/parser.cpp.obj"
 },
 {
-  "directory": "C:/Users/packard/Desktop/real_work_compil/build",
-  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\lexer.cpp.obj -c C:\\Users\\packard\\Desktop\\real_work_compil\\build\\lexer.cpp",
-  "file": "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp",
+  "directory": "C:/Users/packard/Desktop/test_coml/Compiler/build",
+  "command": "C:\\mingw64\\bin\\g++.exe  @CMakeFiles/a.out.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\a.out.dir\\lexer.cpp.obj -c C:\\Users\\packard\\Desktop\\test_coml\\Compiler\\build\\lexer.cpp",
+  "file": "C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.cpp",
   "output": "CMakeFiles/a.out.dir/lexer.cpp.obj"
 }
 ]

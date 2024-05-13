@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\packard\Desktop\real_work_compil
+CMAKE_SOURCE_DIR = C:\Users\packard\Desktop\test_coml\Compiler
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\packard\Desktop\real_work_compil\build
+CMAKE_BINARY_DIR = C:\Users\packard\Desktop\test_coml\Compiler\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/a.out.dir/depend.make
@@ -68,65 +68,65 @@ include CMakeFiles/a.out.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/a.out.dir/flags.make
 
-parser.cpp: C:/Users/packard/Desktop/real_work_compil/parser.y
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][parser] Building parser with bison 3.8.2"
-	C:\DevSoft\win_flex_bison\bison.exe -d -o C:/Users/packard/Desktop/real_work_compil/build/parser.cpp C:/Users/packard/Desktop/real_work_compil/parser.y
+parser.cpp: C:/Users/packard/Desktop/test_coml/Compiler/parser.y
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BISON][parser] Building parser with bison 3.8.2"
+	C:\DevSoft\win_flex_bison\bison.exe -d -o C:/Users/packard/Desktop/test_coml/Compiler/build/parser.cpp C:/Users/packard/Desktop/test_coml/Compiler/parser.y
 
 parser.hpp: parser.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate parser.hpp
 
-lexer.cpp: C:/Users/packard/Desktop/real_work_compil/lexer.l
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "[FLEX][scanner] Building scanner with flex 2.6.4"
-	cd /d C:\Users\packard\Desktop\real_work_compil && C:\DevSoft\win_flex_bison\flex.exe --header-file=C:/Users/packard/Desktop/real_work_compil/build/lexer.h -oC:/Users/packard/Desktop/real_work_compil/build/lexer.cpp C:/Users/packard/Desktop/real_work_compil/lexer.l
+lexer.cpp: C:/Users/packard/Desktop/test_coml/Compiler/lexer.l
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "[FLEX][scanner] Building scanner with flex 2.6.4"
+	cd /d C:\Users\packard\Desktop\test_coml\Compiler && C:\DevSoft\win_flex_bison\flex.exe --header-file=C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.h -oC:/Users/packard/Desktop/test_coml/Compiler/build/lexer.cpp C:/Users/packard/Desktop/test_coml/Compiler/lexer.l
 
 lexer.h: lexer.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate lexer.h
 
 CMakeFiles/a.out.dir/main.cpp.obj: CMakeFiles/a.out.dir/flags.make
 CMakeFiles/a.out.dir/main.cpp.obj: CMakeFiles/a.out.dir/includes_CXX.rsp
-CMakeFiles/a.out.dir/main.cpp.obj: C:/Users/packard/Desktop/real_work_compil/main.cpp
+CMakeFiles/a.out.dir/main.cpp.obj: C:/Users/packard/Desktop/test_coml/Compiler/main.cpp
 CMakeFiles/a.out.dir/main.cpp.obj: CMakeFiles/a.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/a.out.dir/main.cpp.obj"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/main.cpp.obj -MF CMakeFiles\a.out.dir\main.cpp.obj.d -o CMakeFiles\a.out.dir\main.cpp.obj -c C:\Users\packard\Desktop\real_work_compil\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/a.out.dir/main.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/main.cpp.obj -MF CMakeFiles\a.out.dir\main.cpp.obj.d -o CMakeFiles\a.out.dir\main.cpp.obj -c C:\Users\packard\Desktop\test_coml\Compiler\main.cpp
 
 CMakeFiles/a.out.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/a.out.dir/main.cpp.i"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\real_work_compil\main.cpp > CMakeFiles\a.out.dir\main.cpp.i
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\test_coml\Compiler\main.cpp > CMakeFiles\a.out.dir\main.cpp.i
 
 CMakeFiles/a.out.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/a.out.dir/main.cpp.s"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\real_work_compil\main.cpp -o CMakeFiles\a.out.dir\main.cpp.s
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\test_coml\Compiler\main.cpp -o CMakeFiles\a.out.dir\main.cpp.s
 
 CMakeFiles/a.out.dir/parser.cpp.obj: CMakeFiles/a.out.dir/flags.make
 CMakeFiles/a.out.dir/parser.cpp.obj: CMakeFiles/a.out.dir/includes_CXX.rsp
 CMakeFiles/a.out.dir/parser.cpp.obj: parser.cpp
 CMakeFiles/a.out.dir/parser.cpp.obj: CMakeFiles/a.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/a.out.dir/parser.cpp.obj"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/parser.cpp.obj -MF CMakeFiles\a.out.dir\parser.cpp.obj.d -o CMakeFiles\a.out.dir\parser.cpp.obj -c C:\Users\packard\Desktop\real_work_compil\build\parser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/a.out.dir/parser.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/parser.cpp.obj -MF CMakeFiles\a.out.dir\parser.cpp.obj.d -o CMakeFiles\a.out.dir\parser.cpp.obj -c C:\Users\packard\Desktop\test_coml\Compiler\build\parser.cpp
 
 CMakeFiles/a.out.dir/parser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/a.out.dir/parser.cpp.i"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\real_work_compil\build\parser.cpp > CMakeFiles\a.out.dir\parser.cpp.i
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\test_coml\Compiler\build\parser.cpp > CMakeFiles\a.out.dir\parser.cpp.i
 
 CMakeFiles/a.out.dir/parser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/a.out.dir/parser.cpp.s"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\real_work_compil\build\parser.cpp -o CMakeFiles\a.out.dir\parser.cpp.s
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\test_coml\Compiler\build\parser.cpp -o CMakeFiles\a.out.dir\parser.cpp.s
 
 CMakeFiles/a.out.dir/lexer.cpp.obj: CMakeFiles/a.out.dir/flags.make
 CMakeFiles/a.out.dir/lexer.cpp.obj: CMakeFiles/a.out.dir/includes_CXX.rsp
 CMakeFiles/a.out.dir/lexer.cpp.obj: lexer.cpp
 CMakeFiles/a.out.dir/lexer.cpp.obj: parser.hpp
 CMakeFiles/a.out.dir/lexer.cpp.obj: CMakeFiles/a.out.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/a.out.dir/lexer.cpp.obj"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/lexer.cpp.obj -MF CMakeFiles\a.out.dir\lexer.cpp.obj.d -o CMakeFiles\a.out.dir\lexer.cpp.obj -c C:\Users\packard\Desktop\real_work_compil\build\lexer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/a.out.dir/lexer.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/a.out.dir/lexer.cpp.obj -MF CMakeFiles\a.out.dir\lexer.cpp.obj.d -o CMakeFiles\a.out.dir\lexer.cpp.obj -c C:\Users\packard\Desktop\test_coml\Compiler\build\lexer.cpp
 
 CMakeFiles/a.out.dir/lexer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/a.out.dir/lexer.cpp.i"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\real_work_compil\build\lexer.cpp > CMakeFiles\a.out.dir\lexer.cpp.i
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\packard\Desktop\test_coml\Compiler\build\lexer.cpp > CMakeFiles\a.out.dir\lexer.cpp.i
 
 CMakeFiles/a.out.dir/lexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/a.out.dir/lexer.cpp.s"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\real_work_compil\build\lexer.cpp -o CMakeFiles\a.out.dir\lexer.cpp.s
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\packard\Desktop\test_coml\Compiler\build\lexer.cpp -o CMakeFiles\a.out.dir\lexer.cpp.s
 
 # Object files for target a.out
 a_out_OBJECTS = \
@@ -144,7 +144,7 @@ a.out.exe: CMakeFiles/a.out.dir/build.make
 a.out.exe: CMakeFiles/a.out.dir/linkLibs.rsp
 a.out.exe: CMakeFiles/a.out.dir/objects1.rsp
 a.out.exe: CMakeFiles/a.out.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable a.out.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable a.out.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\a.out.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -159,6 +159,6 @@ CMakeFiles/a.out.dir/depend: lexer.cpp
 CMakeFiles/a.out.dir/depend: lexer.h
 CMakeFiles/a.out.dir/depend: parser.cpp
 CMakeFiles/a.out.dir/depend: parser.hpp
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\packard\Desktop\real_work_compil C:\Users\packard\Desktop\real_work_compil C:\Users\packard\Desktop\real_work_compil\build C:\Users\packard\Desktop\real_work_compil\build C:\Users\packard\Desktop\real_work_compil\build\CMakeFiles\a.out.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\packard\Desktop\test_coml\Compiler C:\Users\packard\Desktop\test_coml\Compiler C:\Users\packard\Desktop\test_coml\Compiler\build C:\Users\packard\Desktop\test_coml\Compiler\build C:\Users\packard\Desktop\test_coml\Compiler\build\CMakeFiles\a.out.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/a.out.dir/depend
 

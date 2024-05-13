@@ -1,5 +1,5 @@
 CMakeFiles/a.out.dir/lexer.cpp.obj: \
- C:\Users\packard\Desktop\real_work_compil\build\lexer.cpp \
+ C:\Users\packard\Desktop\test_coml\Compiler\build\lexer.cpp \
  C:/mingw64/x86_64-w64-mingw32/include/stdio.h \
  C:/mingw64/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
  C:/mingw64/x86_64-w64-mingw32/include/corecrt.h \
@@ -30,7 +30,7 @@ CMakeFiles/a.out.dir/lexer.cpp.obj: \
  C:/mingw64/x86_64-w64-mingw32/include/malloc.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_abs.h \
- C:/Users/packard/Desktop/real_work_compil/main.h \
+ C:/Users/packard/Desktop/test_coml/Compiler/main.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdarg.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdarg.h \
  C:/mingw64/x86_64-w64-mingw32/include/_mingw_stdarg.h \
@@ -148,7 +148,12 @@ CMakeFiles/a.out.dir/lexer.cpp.obj: \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
- C:\Users\packard\Desktop\real_work_compil\build\parser.hpp \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_vector.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc \
+ C:\Users\packard\Desktop\test_coml\Compiler\build\parser.hpp \
  C:/mingw64/x86_64-w64-mingw32/include/unistd.h \
  C:/mingw64/x86_64-w64-mingw32/include/io.h \
  C:/mingw64/x86_64-w64-mingw32/include/getopt.h

@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_C_USERS_PACKARD_DESKTOP_REAL_WORK_COMPIL_BUILD_PARSER_HPP_INCLUDED
-# define YY_YY_C_USERS_PACKARD_DESKTOP_REAL_WORK_COMPIL_BUILD_PARSER_HPP_INCLUDED
+#ifndef YY_YY_C_USERS_PACKARD_DESKTOP_TEST_COML_COMPILER_BUILD_PARSER_HPP_INCLUDED
+# define YY_YY_C_USERS_PACKARD_DESKTOP_TEST_COML_COMPILER_BUILD_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -79,13 +79,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 138 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 40 "C:/Users/packard/Desktop/test_coml/Compiler/parser.y"
  
     struct ast *a;
     double num;
     char* str;
 
-#line 89 "C:/Users/packard/Desktop/real_work_compil/build/parser.hpp"
+#line 89 "C:/Users/packard/Desktop/test_coml/Compiler/build/parser.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -114,4 +114,4 @@ extern YYLTYPE yylloc;
 int yyparse (struct ast *endroot);
 
 
-#endif /* !YY_YY_C_USERS_PACKARD_DESKTOP_REAL_WORK_COMPIL_BUILD_PARSER_HPP_INCLUDED  */
+#endif /* !YY_YY_C_USERS_PACKARD_DESKTOP_TEST_COML_COMPILER_BUILD_PARSER_HPP_INCLUDED  */

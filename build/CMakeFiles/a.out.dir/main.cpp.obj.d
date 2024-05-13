@@ -1,6 +1,6 @@
 CMakeFiles/a.out.dir/main.cpp.obj: \
- C:\Users\packard\Desktop\real_work_compil\main.cpp \
- C:\Users\packard\Desktop\real_work_compil\main.h \
+ C:\Users\packard\Desktop\test_coml\Compiler\main.cpp \
+ C:\Users\packard\Desktop\test_coml\Compiler\main.h \
  C:/mingw64/x86_64-w64-mingw32/include/string.h \
  C:/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
  C:/mingw64/x86_64-w64-mingw32/include/corecrt.h \
@@ -148,8 +148,13 @@ CMakeFiles/a.out.dir/main.cpp.obj: \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
- C:/Users/packard/Desktop/real_work_compil/build/parser.hpp \
- C:/Users/packard/Desktop/real_work_compil/build/lexer.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_uninitialized.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_vector.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc \
+ C:/Users/packard/Desktop/test_coml/Compiler/build/parser.hpp \
+ C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.h \
  C:/mingw64/x86_64-w64-mingw32/include/unistd.h \
  C:/mingw64/x86_64-w64-mingw32/include/io.h \
  C:/mingw64/x86_64-w64-mingw32/include/getopt.h

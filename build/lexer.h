@@ -2,9 +2,9 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 5 "C:/Users/packard/Desktop/real_work_compil/build/lexer.h"
+#line 5 "C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.h"
 
-#line 7 "C:/Users/packard/Desktop/real_work_compil/build/lexer.h"
+#line 7 "C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -466,9 +466,9 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 80 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 80 "C:/Users/packard/Desktop/test_coml/Compiler/lexer.l"
 
 
-#line 472 "C:/Users/packard/Desktop/real_work_compil/build/lexer.h"
+#line 472 "C:/Users/packard/Desktop/test_coml/Compiler/build/lexer.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

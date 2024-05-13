@@ -58,11 +58,11 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "C:/Users/packard/Desktop/real_work_compil/build"
+					"path" : "C:/Users/packard/Desktop/test_coml/Compiler/build"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/packard/Desktop/real_work_compil"
+					"path" : "C:/Users/packard/Desktop/test_coml/Compiler"
 				}
 			],
 			"language" : "CXX",
