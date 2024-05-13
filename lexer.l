@@ -1,9 +1,10 @@
 
 
 %{
-    #include "main.h"
+  #include "main.h"
   #include "parser.hpp"
   /* handle locations */
+//скажете фу глобальная переменная. Пример взят чуть ли не из оффициальной документации
 int yycolumn = 1;
 
 #define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
@@ -18,6 +19,7 @@ EXP ([Ee][-+]?[0-9]+)
 
 %%
 
+  /* keywords */
 
 "+" |
 "-" |
@@ -43,7 +45,7 @@ EXP ([Ee][-+]?[0-9]+)
 ">=" { yylval.str  = strdup(yytext); return CMP; }
 "<=" { yylval.str  = strdup(yytext); return CMP; }
 
-  /* keywords */
+
 "EOF" {yycolumn = 1;return EF;}
 "return" {return RET;}
 "if"    {      return IF; }
@@ -56,20 +58,24 @@ EXP ([Ee][-+]?[0-9]+)
 "class" {return CLASS;}
 "new" {return NEW;}
   /* names */
-[a-zA-Z][a-zA-Z0-9_]* {yylval.str  = strdup(yytext); printf("%s\n","ok"); return NAME; }
+[a-zA-Z][a-zA-Z0-9_]* {yylval.str  = strdup(yytext); return NAME; }
+  /* strings */
 "\""[^\"]*"\"" {yylval.str  = strdup(yytext); return STRING; }
 
-
+  /*nums*/
 [0-9]+"."[0-9]*{EXP}? |
-"."?[0-9]+{EXP}? {std::cout<< yylloc.first_column<<std::endl; yylval.str  = strdup(yytext); std::cout<<"read num"; return NUMBER; }
+"."?[0-9]+{EXP}? { yylval.str  = strdup(yytext); return NUMBER; }
 " " {}
+
+  /*other troubles*/
 [ \t] { }
 
-\\\n {/*yycolumn = 1;*/ } /* ignore line continuation */
+\\\n { } /* ignore line continuation */
 
 \n { }
 
-. { yycolumn = 1;yylval.str  = strdup(yytext); std::cout<<"read err"<<std::endl; return ERR; }
+. { yycolumn = 1;yylval.str  = strdup(yytext); return ERR; }/*mistery char*/
 
 %%
+
 int yywrap(){return 1;}

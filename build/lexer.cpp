@@ -525,18 +525,19 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 #line 4 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-    #include "main.h"
+  #include "main.h"
   #include "parser.hpp"
   /* handle locations */
+//скажете фу глобальная переменная. Пример взят чуть ли не из оффициальной документации
 int yycolumn = 1;
 
 #define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
  yylloc.first_column = yycolumn; yylloc.last_column = yycolumn+yyleng-1; \
  yycolumn += yyleng;
   
-#line 537 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
+#line 538 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
 /* float exponent */
-#line 539 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
+#line 540 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
 
 #define INITIAL 0
 
@@ -753,11 +754,13 @@ YY_DECL
 		}
 
 	{
-#line 19 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 20 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 
 
+#line 23 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+  /* keywords */
 
-#line 760 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
+#line 763 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -825,178 +828,180 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-#line 23 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 2:
-#line 24 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 3:
-#line 25 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 4:
 #line 26 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 5:
+case 2:
 #line 27 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 6:
+case 3:
 #line 28 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 7:
+case 4:
 #line 29 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 8:
+case 5:
 #line 30 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 9:
+case 6:
 #line 31 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 10:
+case 7:
 #line 32 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 11:
+case 8:
 #line 33 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 12:
+case 9:
 #line 34 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 13:
+case 10:
 #line 35 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 14:
+case 11:
 #line 36 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-case 15:
+case 12:
 #line 37 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+case 13:
+#line 38 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+case 14:
+#line 39 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+case 15:
+#line 40 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 case 16:
 YY_RULE_SETUP
-#line 37 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 40 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str = strdup(yytext);return yytext[0]; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 39 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 42 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str = strdup(yytext);  return CMP; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 40 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 43 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {  yylval.str = strdup(yytext); return CMP; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 41 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 44 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str  = strdup(yytext); return CMP; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 42 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 45 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str  = strdup(yytext); return CMP; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 43 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 46 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str  = strdup(yytext); return CMP; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 44 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 47 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { yylval.str  = strdup(yytext); return CMP; }
 	YY_BREAK
-/* keywords */
 case 23:
 YY_RULE_SETUP
-#line 47 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 50 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {yycolumn = 1;return EF;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 48 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 51 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {return RET;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 49 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 52 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {      return IF; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 50 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 53 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {      return AND; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 51 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 54 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {return OR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 52 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 55 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {    return ELSE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 53 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 56 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {  return WHILE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 54 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 57 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {    return FOR; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 55 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 58 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {   return DEF ;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 56 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 59 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {return CLASS;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 57 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 60 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {return NEW;}
 	YY_BREAK
 /* names */
 case 34:
 YY_RULE_SETUP
-#line 59 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-{yylval.str  = strdup(yytext); printf("%s\n","ok"); return NAME; }
+#line 62 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+{yylval.str  = strdup(yytext); return NAME; }
 	YY_BREAK
+/* strings */
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 60 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 64 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {yylval.str  = strdup(yytext); return STRING; }
 	YY_BREAK
+/*nums*/
 case 36:
-#line 64 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 68 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 case 37:
 YY_RULE_SETUP
-#line 64 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-{std::cout<< yylloc.first_column<<std::endl; yylval.str  = strdup(yytext); std::cout<<"read num"; return NUMBER; }
+#line 68 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+{ yylval.str  = strdup(yytext); return NUMBER; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 65 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 69 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 {}
 	YY_BREAK
+/*other troubles*/
 case 39:
 YY_RULE_SETUP
-#line 66 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 72 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { }
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 68 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-{/*yycolumn = 1;*/ } /* ignore line continuation */
+#line 74 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+{ } /* ignore line continuation */
 	YY_BREAK
 case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
-#line 70 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 76 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 { }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 72 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
-{ yycolumn = 1;yylval.str  = strdup(yytext); std::cout<<"read err"<<std::endl; return ERR; }
+#line 78 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+{ yycolumn = 1;yylval.str  = strdup(yytext); return ERR; }/*mistery char*/
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 74 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 80 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
 ECHO;
 	YY_BREAK
-#line 999 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
+#line 1004 "C:/Users/packard/Desktop/real_work_compil/build/lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2013,6 +2018,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 74 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+#line 80 "C:/Users/packard/Desktop/real_work_compil/lexer.l"
+
 
 int yywrap(){return 1;}

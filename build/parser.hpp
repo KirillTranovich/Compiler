@@ -79,7 +79,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 40 "C:/Users/packard/Desktop/real_work_compil/parser.y"
+#line 138 "C:/Users/packard/Desktop/real_work_compil/parser.y"
  
     struct ast *a;
     double num;
