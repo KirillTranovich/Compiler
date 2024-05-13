@@ -79,7 +79,10 @@ public:
         delete cond;
         delete change;*/
     }
-
+    static ast *getNext(ast *root)
+    {
+        return root->next;
+    }
     static std::vector<ast *> getAllPointers(ast *root)
     {
         std::vector<ast *> pointers;
@@ -406,7 +409,6 @@ private:
         getAllPointersRecursive(node->right_child, pointers);
         getAllPointersRecursive(node->in_level, pointers);
         getAllPointersRecursive(node->args, pointers);
-        getAllPointersRecursive(node->next, pointers);
         getAllPointersRecursive(node->init, pointers);
         getAllPointersRecursive(node->cond, pointers);
         getAllPointersRecursive(node->change, pointers);
