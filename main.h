@@ -86,11 +86,24 @@ public:
     static std::vector<ast *> getAllPointers(ast *root)
     {
         std::vector<ast *> pointers;
-        getAllPointersRecursive(root, pointers);
+        if ((root) == nullptr)
+        {
+            return;
+        }
+
+        pointers.push_back(root->next);
+
+        pointers.push_back(root->left_child);
+        pointers.push_back(root->right_child);
+        pointers.push_back(root->in_level);
+        pointers.push_back(root->args);
+        pointers.push_back(root->init);
+        pointers.push_back(root->cond);
+        pointers.push_back(root->change);
         return pointers;
     }
 
-    // функция возвращает ссылку на озданный узел
+    // функция возвращает ссылку на cозданный узел
     static ast *newast(ast t)
     {
         struct ast *a = new ast();
@@ -403,7 +416,7 @@ private:
             return;
         }
 
-        pointers.push_back(node);
+        getAllPointersRecursive(node->next, pointers);
 
         getAllPointersRecursive(node->left_child, pointers);
         getAllPointersRecursive(node->right_child, pointers);
