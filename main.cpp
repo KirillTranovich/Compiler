@@ -6,8 +6,10 @@
 
 ast *give_me_tree(char *s)
 {
+    char *tmp = s;
+    strcat(tmp, "EOF");
     struct ast *root = new ast;
-    YY_BUFFER_STATE buffer = yy_scan_string(s);
+    YY_BUFFER_STATE buffer = yy_scan_string(tmp);
     buffer->yy_bs_lineno = 1;
     buffer->yy_bs_column = 0;
     yyparse(root);
@@ -17,7 +19,7 @@ ast *give_me_tree(char *s)
 int main()
 {
 
-    char string[] = "print(1);;e;EOF";
+    char string[] = "print(1);;e;";
 
     ast *root = give_me_tree(string);
 

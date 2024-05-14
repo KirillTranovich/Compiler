@@ -88,7 +88,7 @@ public:
         std::vector<ast *> pointers;
         if ((root) == nullptr)
         {
-            return;
+            return pointers;
         }
 
         pointers.push_back(root->next);
